@@ -6,7 +6,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.sun.org.apache.regexp.internal.REUtil;
 
 class ChessPoint
 {
@@ -20,20 +19,20 @@ class ChessPoint
 }
 
 ///<summary>
-///½çÃæ
+///ï¿½ï¿½ï¿½ï¿½
 ///</summary>
 class FirForm extends JFrame
 {
-    //¶¨Òå°´Å¥£ºµçÄÔÏÈ£¬±¾»ú¶ÔÕ½£¬Áª»ú¶ÔÕ½£¬Êä³öÆåÆ×
+    //ï¿½ï¿½ï¿½å°´Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private JButton computerfirst,vsmode,vsnet,outputstep;
-    //¶¨ÒåÕû¸öÎå×ÓÆåÆåÅÌ£¬Ê¹ÓÃÒÑ¾­Ð´ºÃµÄÆåÅÌÀà
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì£ï¿½Ê¹ï¿½ï¿½ï¿½Ñ¾ï¿½Ð´ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private FirFormBoard firformboard;
-    //¹¹Ôìº¯Êý
+    //ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
     public FirForm()
     {
-        //ÊµÏÖ°´Å¥
-        //ÊµÏÖ½çÃæ
-        //Ìí¼Ó°´Å¥¼àÌý        
+        //Êµï¿½Ö°ï¿½Å¥
+        //Êµï¿½Ö½ï¿½ï¿½ï¿½
+        //ï¿½ï¿½Ó°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½        
     }
 }
 
@@ -43,16 +42,16 @@ class FirFormBoard extends JPanel
     @Override
     public void paint(Graphics g)
     {
-        //»­Îå×ÓÆåÅÌ
-        //»­ºáÊúÏß
-        //»­µã
-        //±éÀúchessPoint»­Æå×Ó
-        //TODO:ÕâÊÇÒ»¸öµÍÐ§ÂÊµÄ°ì·¨
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½ï¿½
+        //ï¿½ï¿½ï¿½ï¿½chessPointï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //TODO:ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ÊµÄ°ì·¨
     }
 }
 
-//°´Å¥µÄ¼àÌýÊÂ¼þ
-//¿ÉÒÔÊ¹ÓÃmsgboxºÍinputbox
+//ï¿½ï¿½Å¥ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
+//ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½msgboxï¿½ï¿½inputbox
 class Button_computerfirst_Click implements ActionListener
 {
     @Override
@@ -83,31 +82,31 @@ class Button_outputstep_Click implements ActionListener
 }
 
 ///<summary>
-///ºËÐÄº¯Êý
+///ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½
 ///</summary>
 class ChessStaticFunc
 {
     public static String getLine(File f)
     {
-        //´ÓÎÄ¼þf¶ÁÈ¡Ò»ÐÐ
+        //ï¿½ï¿½ï¿½Ä¼ï¿½fï¿½ï¿½È¡Ò»ï¿½ï¿½
     }
     public static String getContant(File f)
     {
-        //¶ÁÈ¡Õû¸öÎÄ¼þÄÚÈÝ
+        //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
     }
     public static void postChessPoint(ChessPoint cp,String ip,int port)
     {
-        //ÏòÄ¿±êip·¢ËÍÆå×ÓÎ»ÖÃ
+        //ï¿½ï¿½Ä¿ï¿½ï¿½ipï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
     }
     public static ChessPoint getChessPoint(String ip,int port)
     {
-        //´ÓÄ¿±êip»ñÈ¡Æå×ÓÎ»ÖÃ
+        //ï¿½ï¿½Ä¿ï¿½ï¿½ipï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
         return null;
     }
 }
 
 ///<summary>
-///²½Öè¼ÇÂ¼Àà¼°ai
+///ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½à¼°ai
 ///</summary>
 class ChessStep
 {
@@ -115,7 +114,7 @@ class ChessStep
     int[][] board=new int[16][16];
     public ChessPoint getNextStep()
     {
-        //Õë¶Ôµ±Ç°ÆåÅÌ¼ÆËãÏÂÒ»²½
+        //ï¿½ï¿½Ôµï¿½Ç°ï¿½ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
         return null;
     }
 }
