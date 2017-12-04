@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.sun.org.apache.regexp.internal.REUtil;
 
 class ChessPoint
 {
@@ -19,20 +20,20 @@ class ChessPoint
 }
 
 ///<summary>
-///����
+///界面
 ///</summary>
 class FirForm extends JFrame
 {
-    //���尴ť�������ȣ�������ս��������ս���������
+    //定义按钮：电脑先，本机对战，联机对战，输出棋谱
     private JButton computerfirst,vsmode,vsnet,outputstep;
-    //�����������������̣�ʹ���Ѿ�д�õ�������
+    //定义整个五子棋棋盘，使用已经写好的棋盘类
     private FirFormBoard firformboard;
-    //���캯��
+    //构造函数
     public FirForm()
     {
-        //ʵ�ְ�ť
-        //ʵ�ֽ���
-        //��Ӱ�ť����        
+        //实现按钮
+        //实现界面
+        //添加按钮监听        
     }
 }
 
@@ -42,16 +43,16 @@ class FirFormBoard extends JPanel
     @Override
     public void paint(Graphics g)
     {
-        //����������
-        //��������
-        //����
-        //����chessPoint������
-        //TODO:����һ����Ч�ʵİ취
+        //画五子棋盘
+        //画横竖线
+        //画点
+        //遍历chessPoint画棋子
+        //TODO:这是一个低效率的办法
     }
 }
 
-//��ť�ļ����¼�
-//����ʹ��msgbox��inputbox
+//按钮的监听事件
+//可以使用msgbox和inputbox
 class Button_computerfirst_Click implements ActionListener
 {
     @Override
@@ -82,31 +83,31 @@ class Button_outputstep_Click implements ActionListener
 }
 
 ///<summary>
-///���ĺ���
+///核心函数
 ///</summary>
 class ChessStaticFunc
 {
     public static String getLine(File f)
     {
-        //���ļ�f��ȡһ��
+        //从文件f读取一行
     }
     public static String getContant(File f)
     {
-        //��ȡ�����ļ�����
+        //读取整个文件内容
     }
     public static void postChessPoint(ChessPoint cp,String ip,int port)
     {
-        //��Ŀ��ip��������λ��
+        //向目标ip发送棋子位置
     }
     public static ChessPoint getChessPoint(String ip,int port)
     {
-        //��Ŀ��ip��ȡ����λ��
+        //从目标ip获取棋子位置
         return null;
     }
 }
 
 ///<summary>
-///�����¼�༰ai
+///步骤记录类及ai
 ///</summary>
 class ChessStep
 {
@@ -114,7 +115,7 @@ class ChessStep
     int[][] board=new int[16][16];
     public ChessPoint getNextStep()
     {
-        //��Ե�ǰ���̼�����һ��
+        //针对当前棋盘计算下一步
         return null;
     }
 }
