@@ -33,6 +33,12 @@ class FirForm extends JFrame
     public FirForm()
     {
         super();
+        int i,j;
+
+        for(i=0;i<=15;i++)
+            for(j=0;j<=15;j++)
+                StaticFunc.board[i][j]=0;
+
         firformboard = new FirFormBoard();
         firformboard.addMouseMotionListener(new FirFormBoard_MoveEvent());
         firformboard.addMouseListener(new FirFormBoard_ClickEvent());
@@ -111,8 +117,16 @@ class FirFormBoard extends JPanel
         }
         for (i = 1; i <= StepNum; i++)
         {
-            if (i % 2 == 1) g.setColor(Color.BLACK);
-            else g.setColor(Color.GRAY);
+            if (i % 2 == 1)
+            {
+                StaticFunc.board[chessPoint[i].X][chessPoint[i].Y]=1;
+                g.setColor(Color.BLACK);
+            }
+            else
+            {
+                StaticFunc.board[chessPoint[i].X][chessPoint[i].Y]=2;
+                g.setColor(Color.GRAY);
+            }
             g.fillOval(chessPoint[i].X * StaticFunc.bound - StaticFunc.bound / 2, chessPoint[i].Y * StaticFunc.bound - StaticFunc.bound / 2, StaticFunc.bound, StaticFunc.bound);
         }
         //画五子棋盘
