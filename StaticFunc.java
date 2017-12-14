@@ -1,6 +1,6 @@
 public class StaticFunc
 {
-    public static int bound = 60;
+    public static int bound = 30;
     public static int[][] board=new int[17][17];
     public static int getXY(int x)
     {
@@ -22,6 +22,15 @@ public class StaticFunc
     public static boolean isOnBoard(ChessPoint chessPoint)
     {
         return isOnBoard(chessPoint.X,chessPoint.Y);
+    }
+
+    public static int getXFromStr(String str)
+    {
+        return Integer.parseInt(str)/100;
+    }
+    public static int getYFromStr(String str)
+    {
+        return Integer.parseInt(str)%100;
     }
 
 }
