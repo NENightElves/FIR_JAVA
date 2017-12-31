@@ -15,6 +15,7 @@ import java.net.Socket;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
+import javax.xml.crypto.Data;
 
 public class gui
 {
@@ -29,7 +30,7 @@ public class gui
 class FirForm extends JFrame
 {
     //定义按钮：电脑先，本机对战，联机对战，输出棋谱
-    private JButton vsnet,vsnetc, outputstep, refresh,btn_nxt,btn_pre,btnfirst;
+    private JButton vsnet,vsnetc, outputstep, refresh,btn_nxt,btn_pre,btnfirst,readstep;
     private JPanel jp=new JPanel();
     private ChessPoint[] chessPoint = new ChessPoint[256];
     private int StepNum = 0;
@@ -81,6 +82,8 @@ class FirForm extends JFrame
         vsnet=new JButton("对战|服务端");
         vsnetc=new JButton("对战|客户端");
         btnfirst=new JButton("先手");
+        outputstep=new JButton("输出棋谱");
+        readstep=new JButton("读取棋谱");
         refresh.addActionListener((e)->firformboard.refresh());
         btn_nxt.addActionListener((e)->
         {
@@ -144,6 +147,52 @@ class FirForm extends JFrame
             if (isFirst) return;
             new clientmode().start();
         });
+        outputstep.addActionListener(e->
+        {
+            FileOutputStream fileOutputStream;
+            File file=new File("D:\\IdeaProjects\\gui\\1.txt");
+            try
+            {
+                fileOutputStream = new FileOutputStream(file);
+                DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);
+                int ii;
+                dataOutputStream.writeInt(StepNum);
+                for (ii = 1; ii <= StepNum; ii++)
+                {
+                    dataOutputStream.writeInt(chessPoint[ii].X*100+chessPoint[ii].Y);
+                }
+                dataOutputStream.close();
+                fileOutputStream.close();
+            } catch (Exception ex) {}
+        });
+        readstep.addActionListener(e->
+        {
+            FileInputStream fileInputStream;
+            File file=new File("D:\\IdeaProjects\\gui\\1.txt");
+            try
+            {
+                fileInputStream=new FileInputStream(file);
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                int ii;
+                StepNum=0;
+                int tmp;
+                tmp=dataInputStream.readInt();
+                for(ii=1;ii<=tmp;ii++)
+                {
+                    tmp = dataInputStream.readInt();
+                    chessPoint[ii]=new ChessPoint(tmp / 100,tmp % 100);
+                    StepNum++;
+                }
+                dataInputStream.close();
+                fileInputStream.close();
+                firformboard.repaint();
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex.toString());
+            }
+        });
+
 
 
         jp.add(refresh);
@@ -152,10 +201,12 @@ class FirForm extends JFrame
         jp.add(vsnet);
         jp.add(vsnetc);
         jp.add(btnfirst);
+        jp.add(outputstep);
+        jp.add(readstep);
         this.add(jp,BorderLayout.SOUTH);
 
         this.pack();
-        this.setSize(18 * StaticFunc.bound, 20 * StaticFunc.bound);
+        this.setSize(25 * StaticFunc.bound, 18 * StaticFunc.bound);
         //实现按钮
         //实现界面
         //添加按钮监听        
