@@ -1,6 +1,9 @@
+import com.sun.deploy.util.SessionState;
 import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
 import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
 import com.sun.xml.internal.ws.api.model.wsdl.editable.EditableWSDLBoundFault;
+import javafx.scene.layout.BackgroundFill;
+import jdk.jfr.events.ExceptionThrownEvent;
 import sun.font.TrueTypeFont;
 
 import java.awt.*;
@@ -59,6 +62,7 @@ class FirForm extends JFrame
     InputStream inputStream;
     InputStreamReader inputStreamReader;
     BufferedReader bufferedReader;
+    Thread ththth;
 
     //构造函数
     public FirForm()
@@ -104,10 +108,68 @@ class FirForm extends JFrame
             if (btnfirst.getText().equals("先手"))
             {
                 btnfirst.setText("后手");isFirst=false;
+                if (JOptionPane.showConfirmDialog(null,"是否确认后手")==0)
+                {
+                    if (isServer && client != null)
+                    {
+                        try
+                        {
+                            OutputStream op = client.getOutputStream();
+                            PrintWriter pw = new PrintWriter(op);
+                            pw.println("1");
+                            pw.flush();
+                        } catch (Exception eee)
+                        {
+                        }
+                    }
+                    if (isFirst) return;
+                    new servermode().start();
+                }
+//                if (isServer && client!=null)
+//                {
+//                    try
+//                    {
+//                        OutputStream op = client.getOutputStream();
+//                        PrintWriter pw = new PrintWriter(op);
+//                        pw.println("1");
+//                        pw.flush();
+////                        ththth=new servermode();
+//                    }
+//                    catch (Exception ex){}
+//                }
             }
             else
             {
                 btnfirst.setText("先手");isFirst=true;
+                if (JOptionPane.showConfirmDialog(null,"是否确认先手")==0)
+                {
+                    if (isServer && client != null)
+                    {
+                        try
+                        {
+                            OutputStream op = client.getOutputStream();
+                            PrintWriter pw = new PrintWriter(op);
+                            pw.println("0");
+                            pw.flush();
+                        } catch (Exception eee)
+                        {
+                        }
+                    }
+                    if (isFirst) return;
+                    new servermode().start();
+                }
+//                if (isServer && client!=null)
+//                {
+//                    try
+//                    {
+//                        OutputStream op = client.getOutputStream();
+//                        PrintWriter pw = new PrintWriter(op);
+//                        pw.println("0");
+//                        pw.flush();
+////                        ththth.stop();
+//                    }
+//                    catch (Exception ex){}
+//                }
             }
         });
         vsnet.addActionListener((e)->
@@ -121,16 +183,59 @@ class FirForm extends JFrame
                 ipt = client.getInputStream();
                 isr = new InputStreamReader(ipt);
                 bf = new BufferedReader(isr);
+//                OutputStream op = client.getOutputStream();
+//                PrintWriter pw = new PrintWriter(op);
+//                if (isFirst) pw.println("0"); else pw.println("1");
+//                pw.flush();
+                if (isFirst)
+                {
+                    if (JOptionPane.showConfirmDialog(null,"是否确认先手")==0)
+                    {
+                        if (isServer && client != null)
+                        {
+                            try
+                            {
+                                OutputStream op = client.getOutputStream();
+                                PrintWriter pw = new PrintWriter(op);
+                                pw.println("0");
+                                pw.flush();
+                            } catch (Exception eee)
+                            {
+                            }
+                        }
+                        if (isFirst) return;
+                        new servermode().start();
+                    }
+                }
+                else
+                {
+                    if (JOptionPane.showConfirmDialog(null,"是否确认后手")==0)
+                    {
+                        if (isServer && client != null)
+                        {
+                            try
+                            {
+                                OutputStream op = client.getOutputStream();
+                                PrintWriter pw = new PrintWriter(op);
+                                pw.println("1");
+                                pw.flush();
+                            } catch (Exception eee)
+                            {
+                            }
+                        }
+                        if (isFirst) return;
+                        new servermode().start();
+                    }
+                }
             } catch (Exception ex)
             {
             }
-            if (isFirst) return;
-            new servermode().start();
         });
         vsnetc.addActionListener(e->
         {
             isvsmode=true;
             isServer = false;
+            btnfirst.setEnabled(false);
             try
             {
                 socket = new Socket("127.0.0.1", 1234);
@@ -139,6 +244,30 @@ class FirForm extends JFrame
                 inputStream = socket.getInputStream();
                 inputStreamReader = new InputStreamReader(inputStream);
                 bufferedReader = new BufferedReader(inputStreamReader);
+//                new Thread(()->
+//                {
+//                    while ( StepNum==0)
+//                    {
+                        try
+                        {
+//                            JOptionPane.showMessageDialog(null,"等待服务端选择先后手");
+                            String stmp = bufferedReader.readLine();
+                            if (stmp.equals("0"))
+                            {
+                                isFirst = false;
+                                btnfirst.setText("后手");
+//                                ththth=new clientmode();
+                            } else
+                            {
+                                isFirst = true;
+                                btnfirst.setText("先手");
+//                                ththth.stop();
+                            }
+                        } catch (Exception exx)
+                        {
+                        }
+//                    }
+//                }).start();
             }
             catch (Exception ex)
             {
@@ -167,30 +296,7 @@ class FirForm extends JFrame
         });
         readstep.addActionListener(e->
         {
-            FileInputStream fileInputStream;
-            File file=new File("D:\\IdeaProjects\\gui\\1.txt");
-            try
-            {
-                fileInputStream=new FileInputStream(file);
-                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
-                int ii;
-                StepNum=0;
-                int tmp;
-                tmp=dataInputStream.readInt();
-                for(ii=1;ii<=tmp;ii++)
-                {
-                    tmp = dataInputStream.readInt();
-                    chessPoint[ii]=new ChessPoint(tmp / 100,tmp % 100);
-                    StepNum++;
-                }
-                dataInputStream.close();
-                fileInputStream.close();
-                firformboard.repaint();
-            }
-            catch (Exception ex)
-            {
-                System.out.println(ex.toString());
-            }
+            new readchess().start();
         });
 
 
@@ -210,6 +316,39 @@ class FirForm extends JFrame
         //实现按钮
         //实现界面
         //添加按钮监听        
+    }
+
+    class readchess extends  Thread
+    {
+        @Override
+        public void run()
+        {
+            FileInputStream fileInputStream;
+            File file=new File("D:\\IdeaProjects\\gui\\1.txt");
+            try
+            {
+                fileInputStream=new FileInputStream(file);
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                int ii;
+                StepNum=0;
+                int tmp;
+                tmp=dataInputStream.readInt();
+                for(ii=1;ii<=tmp;ii++)
+                {
+                    tmp = dataInputStream.readInt();
+                    chessPoint[ii]=new ChessPoint(tmp / 100,tmp % 100);
+                    StepNum++;
+                    firformboard.repaint();
+                    Thread.sleep(1000);
+                }
+                dataInputStream.close();
+                fileInputStream.close();
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex.toString());
+            }
+        }
     }
 
     class servermode extends Thread
@@ -326,6 +465,7 @@ class FirForm extends JFrame
             {
                 if (isServer)
                 {
+//                    if (!isFirst && StepNum==0) return;
                     try
                     {
                         OutputStream op = client.getOutputStream();
@@ -342,6 +482,7 @@ class FirForm extends JFrame
                 }
                 else
                 {
+//                    if (!isFirst && StepNum==0) return;
                     try
                     {
                         printWriter.println(StaticFunc.getXY(e.getX()) * 100 + StaticFunc.getXY(e.getY()));
@@ -372,6 +513,7 @@ class FirForm extends JFrame
 
     public void setDown(int x,int y)
     {
+        btnfirst.setEnabled(false);
         ChessPoint tmpChessPoint = new ChessPoint(x,y);
         if (!StaticFunc.isOnBoard(tmpChessPoint)) return;
         if (board[tmpChessPoint.X][tmpChessPoint.Y]!=0) return;
@@ -417,7 +559,7 @@ class FirForm extends JFrame
                 else
                 {
                     StaticFunc.board[chessPoint[i].X][chessPoint[i].Y]=2;
-                    g.setColor(Color.GRAY);
+                    g.setColor(Color.white);
                 }
                 g.fillOval(chessPoint[i].X * StaticFunc.bound - StaticFunc.bound / 2, chessPoint[i].Y * StaticFunc.bound - StaticFunc.bound / 2, StaticFunc.bound, StaticFunc.bound);
             }
@@ -432,6 +574,8 @@ class FirForm extends JFrame
             StepNum = 0;
             currentPoint=null;
             color=1;
+            btnfirst.setEnabled(true);
+
             repaint();
         }
     }
